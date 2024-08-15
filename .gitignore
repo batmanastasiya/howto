@@ -8,6 +8,7 @@ out
 gen
 node_modules/
 /test-results/
+/test-examples/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
