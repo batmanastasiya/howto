@@ -23,7 +23,7 @@ jobs:
         id: html_preview
         uses: pavi2410/html-preview-action@v2
         with:
-          html_file: 'test-results/index.html'
+          html_file: 'playwright-report/index.html'
       - name: add report
         uses: github-actions-up-and-running/pr-comment@v1.0.0
         with:
