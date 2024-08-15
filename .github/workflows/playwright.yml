@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium --with-deps
       - name: Run Playwright tests
         run: npx playwright test
       - name: HTML Preview
@@ -24,5 +24,8 @@ jobs:
         uses: pavi2410/html-preview-action@v2
         with:
           html_file: 'test-results/index.html'
+      - name: add report
+      - uses: github-actions-up-and-running/pr-comment@v1.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           message: ${{ format('[Click here to preview HTML page in browser]({0})', steps.html_preview.outputs.url) }}
-
