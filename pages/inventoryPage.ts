@@ -1,5 +1,5 @@
-import { BasePage } from "./basePage";
+import { Page } from "@playwright/test";
 
-export class InventoryPage extends BasePage {
-    
+export class InventoryPage {
+    constructor(private page: Page){}
 }
