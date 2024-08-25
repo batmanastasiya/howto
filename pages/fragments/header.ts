@@ -4,8 +4,8 @@ import { CartPage } from '../cartPage';
 export class Header {
   constructor(private page: Page) {}
 
-  private cartButton = this.page.getByTestId('shopping_cart_link');
-  private cartBadge = this.page.getByTestId('shopping_cart_badge');
+  private cartButton = this.page.getByTestId('shopping-cart-link');
+  private cartBadge = this.page.getByTestId('shopping-cart-badge');
   private pageTitle = this.page.getByTestId('title');
   private sortingDropdown = this.page.getByTestId('product-sort-container');
 
@@ -20,5 +20,9 @@ export class Header {
 
   async getCartBadge(): Promise<string> {
     return this.cartBadge.textContent();
+  }
+
+  async ifCartBadgeVisible(): Promise<boolean> {
+    return this.cartBadge.isVisible();
   }
 }

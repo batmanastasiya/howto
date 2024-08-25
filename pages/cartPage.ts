@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import { Header } from './fragments/header';
 import { ProductInfo } from '../types/product.type';
 import { parsePrice } from '../helpers/priceParsingHealper';
+import { CheckoutStepOnePage } from './checkoutStepOnePage';
 
 export class CartPage {
   public header = new Header(this.page);
@@ -42,8 +43,8 @@ export class CartPage {
       .click();
   }
 
-  // async goToCheckout(): Promise<CheckoutPage> {
-  //   await this.checkoutBtn.click();
-  //   return new CheckoutPage(this.page);
-  // }
+  async goToCheckout(): Promise<CheckoutStepOnePage> {
+    await this.checkoutBtn.click();
+    return new CheckoutStepOnePage(this.page);
+  }
 }

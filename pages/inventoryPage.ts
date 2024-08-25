@@ -5,7 +5,7 @@ import { parsePrice } from '../helpers/priceParsingHealper';
 import { chance } from '../helpers/chanceHelper';
 
 export class InventoryPage {
-  public header: Header;
+  public header = new Header(this.page);
 
   private inventoryItem = this.page.getByTestId('inventory-item');
   private itemName = this.page.getByTestId('inventory-item-name');
@@ -13,9 +13,7 @@ export class InventoryPage {
   private itemPrice = this.page.getByTestId('inventory-item-price');
   private itemAddToCartBtn = this.page.locator('[data-test^=add-to-cart]');
 
-  constructor(private page: Page) {
-    this.header = new Header(page);
-  }
+  constructor(private page: Page) {}
 
   private async getProductInfo(item: Locator): Promise<ProductInfo> {
     const name = await item.locator(this.itemName).textContent();
@@ -73,5 +71,11 @@ export class InventoryPage {
     // }
     //
     // return addedProducts;
+  }
+
+  async isPageDisplayed(): Promise<boolean> {
+    await this.inventoryItem.first().waitFor({ state: 'visible' });
+
+    return true;
   }
 }
