@@ -3,6 +3,7 @@ import { Page } from '@playwright/test';
 
 import { shippingData } from '../user-data/shippingData';
 import { CheckoutStepTwoPage } from './checkoutStepTwoPage';
+import { ShippingData } from '../types/shippingData.type';
 
 export class CheckoutStepOnePage {
   public header = new Header(this.page);
@@ -13,7 +14,7 @@ export class CheckoutStepOnePage {
   private continueButton = this.page.getByTestId('continue');
   constructor(private page: Page) {}
 
-  async fillShippingData(data = shippingData): Promise<void> {
+  async fillShippingData(data: ShippingData = shippingData): Promise<void> {
     await this.firstNameInput.fill(data.firstName);
     await this.lastNameInput.fill(data.lastName);
     await this.postalCodeInput.fill(data.postalCode);

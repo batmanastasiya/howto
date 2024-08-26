@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { ProductInfo } from '../types/product.type';
 import { Header } from './fragments/header';
-import { parsePrice } from '../helpers/priceParsingHealper';
+import { parsePrice } from '../helpers/priceParsingHelper';
 import { chance } from '../helpers/chanceHelper';
 
 export class InventoryPage {
@@ -14,14 +14,6 @@ export class InventoryPage {
   private itemAddToCartBtn = this.page.locator('[data-test^=add-to-cart]');
 
   constructor(private page: Page) {}
-
-  private async getProductInfo(item: Locator): Promise<ProductInfo> {
-    const name = await item.locator(this.itemName).textContent();
-    const desc = await item.locator(this.itemDescription).textContent();
-    const price = parsePrice(await item.locator(this.itemPrice).textContent());
-
-    return { name, desc, price };
-  }
 
   async addFewProductsToCart(numberOfProducts: number): Promise<ProductInfo[]> {
     const addedProducts: ProductInfo[] = [];
@@ -36,8 +28,6 @@ export class InventoryPage {
         .all();
 
       const product = chance.pickone(availableProducts);
-      console.log(product);
-      console.log(await product.innerText());
       addedProducts.push(await this.getProductInfo(product));
       await product.locator(this.itemAddToCartBtn).click();
     }
@@ -77,5 +67,13 @@ export class InventoryPage {
     await this.inventoryItem.first().waitFor({ state: 'visible' });
 
     return true;
+  }
+
+  private async getProductInfo(item: Locator): Promise<ProductInfo> {
+    const name = await item.locator(this.itemName).textContent();
+    const desc = await item.locator(this.itemDescription).textContent();
+    const price = parsePrice(await item.locator(this.itemPrice).textContent());
+
+    return { name, desc, price };
   }
 }

@@ -18,7 +18,7 @@ export class Header {
     return new CartPage(this.page);
   }
 
-  async getCartBadge(): Promise<string> {
+  async getProductAmountInCart(): Promise<string> {
     return this.cartBadge.textContent();
   }
 

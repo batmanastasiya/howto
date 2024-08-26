@@ -12,11 +12,16 @@ export type TestFixtures = {
 export const test = base.extend<TestFixtures>({
   currentUser: {} as User,
   loginPage: async ({ page }, use) => {
-    const loginPage = await LoginPage.open(page);
+    const loginPage = await test.step('Open the login page', async () => {
+      return await LoginPage.open(page);
+    });
     await use(loginPage);
   },
   inventoryPage: async ({ currentUser, loginPage }, use) => {
-    const inventoryPage = await loginPage.loginAs(currentUser);
+    const inventoryPage =
+      await test.step(`Login as '${currentUser.username}'`, async () => {
+        return loginPage.loginAs(currentUser);
+      });
     await use(inventoryPage);
   },
 });

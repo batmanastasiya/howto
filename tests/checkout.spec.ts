@@ -33,7 +33,6 @@ test('test the theory', async ({ inventoryPage }) => {
 
   await test.step('Verify all products in checkout', async () => {
     const productsInCheckout = await checkoutStepTwoPage.getCheckoutItemsInfo();
-    console.log(productsInCheckout);
     expect(productsInCheckout).toEqual(addedProducts);
   });
 
@@ -43,9 +42,9 @@ test('test the theory', async ({ inventoryPage }) => {
       await checkoutStepTwoPage.getCalculatedTotalPrice(subtotalPrice);
     const totalPrice = await checkoutStepTwoPage.getTotalPrice();
 
-    console.log(
-      `Subtotal price: ${subtotalPrice}, Expected total price: ${expectedTotalPrice}, Total price: ${totalPrice}`,
-    );
+    // console.log(
+    //   `Subtotal price: ${subtotalPrice}, Expected total price: ${expectedTotalPrice}, Total price: ${totalPrice}`,
+    // );
 
     expect(totalPrice).toBe(expectedTotalPrice);
   });

@@ -1,8 +1,8 @@
 import { Header } from './fragments/header';
 import { Page } from '@playwright/test';
 import { ProductInfo } from '../types/product.type';
-import { parsePrice } from '../helpers/priceParsingHealper';
-import { calculateTax } from '../helpers/taxCalculatorHealper';
+import { parsePrice } from '../helpers/priceParsingHelper';
+import { calculateTax } from '../helpers/taxCalculatorHelper';
 import { CheckoutCompletePage } from './checkoutCompletePage';
 
 export class CheckoutStepTwoPage {
@@ -42,12 +42,11 @@ export class CheckoutStepTwoPage {
 
   async getCalculatedTotalPrice(price: number) {
     const calculatedTax = calculateTax(price);
-    console.log(`Calculated in method ${calculatedTax}`);
     const roundedPrice = parseFloat(price.toFixed(2));
     const roundedTax = parseFloat(calculatedTax.toFixed(2));
-    const calsulatedTotal = parseFloat((roundedPrice + roundedTax).toFixed(2));
+    const calculatedTotal = parseFloat((roundedPrice + roundedTax).toFixed(2));
 
-    return calsulatedTotal;
+    return calculatedTotal;
   }
   async getTotalPrice() {
     return parsePrice(await this.total.textContent());

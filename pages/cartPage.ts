@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { Header } from './fragments/header';
 import { ProductInfo } from '../types/product.type';
-import { parsePrice } from '../helpers/priceParsingHealper';
+import { parsePrice } from '../helpers/priceParsingHelper';
 import { CheckoutStepOnePage } from './checkoutStepOnePage';
 
 export class CartPage {
@@ -30,15 +30,8 @@ export class CartPage {
   }
 
   async removeProductFromCart(productName: string): Promise<void> {
-    const cartItems = await this.getCartItemsInfo();
-    const productIndex = cartItems.findIndex(
-      (item) => item.name === productName,
-    );
-    if (productIndex === -1) {
-      throw new Error(`Product ${productName} not found in cart`);
-    }
     await this.cartItem
-      .nth(productIndex)
+      .filter({ hasText: productName })
       .locator('[data-test^=remove]')
       .click();
   }
