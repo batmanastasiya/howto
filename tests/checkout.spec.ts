@@ -4,7 +4,7 @@ import { standard_user } from '../user-data/users';
 import { ProductInfo } from '../types/product.type';
 
 test.use({ currentUser: standard_user });
-test('test the theory', async ({ inventoryPage }) => {
+test('Chekout flow', async ({ inventoryPage }) => {
   const addedProducts: ProductInfo[] =
     await test.step('Add products to the cart', async () => {
       return await inventoryPage.addFewProductsToCart(2);

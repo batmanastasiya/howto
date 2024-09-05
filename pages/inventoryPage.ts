@@ -3,6 +3,7 @@ import { ProductInfo } from '../types/product.type';
 import { Header } from './fragments/header';
 import { parsePrice } from '../helpers/priceParsingHelper';
 import { chance } from '../helpers/chanceHelper';
+import { SingleProductPage } from './singleProductPage';
 
 export class InventoryPage {
   public header = new Header(this.page);
@@ -61,6 +62,27 @@ export class InventoryPage {
     // }
     //
     // return addedProducts;
+  }
+
+  async pickAnyAvailableProduct(): Promise<ProductInfo> {
+    await this.inventoryItem.first().waitFor({ state: 'visible' });
+    const availableProducts: Locator[] = await this.inventoryItem
+      .filter({
+        has: this.itemAddToCartBtn,
+      })
+      .all();
+    const product = chance.pickone(availableProducts);
+
+    return await this.getProductInfo(product);
+  }
+
+  async openProductPage(productName: string): Promise<SingleProductPage> {
+    const product: Locator = this.inventoryItem.filter({
+      hasText: productName,
+    });
+    await product.locator(this.itemName).click();
+
+    return new SingleProductPage(this.page);
   }
 
   async isPageDisplayed(): Promise<boolean> {

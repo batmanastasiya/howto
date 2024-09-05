@@ -25,4 +25,11 @@ export class Header {
   async ifCartBadgeVisible(): Promise<boolean> {
     return this.cartBadge.isVisible();
   }
+
+  async selectSortingOption(option: string): Promise<string[]> {
+    const selectedOption = await this.sortingDropdown.selectOption({
+      label: option,
+    });
+    return selectedOption;
+  }
 }
