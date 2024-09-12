@@ -1,7 +1,8 @@
-import { test as base } from '@playwright/test';
+import { test as base, expect as baseExpect, Locator } from '@playwright/test';
 import { InventoryPage } from '../pages/inventoryPage';
 import { LoginPage } from '../pages/loginPage';
 import { User } from '../types/user.type';
+import { isImageSrcValid } from '../helpers/imageCheckHelper';
 
 export type TestFixtures = {
   loginPage: LoginPage;
@@ -25,3 +26,71 @@ export const test = base.extend<TestFixtures>({
     await use(inventoryPage);
   },
 });
+
+export const expect = baseExpect.extend({
+  toHaveNaturalWidth: async (received: Locator) => {
+    const hasWidth = await received.evaluate((node: HTMLImageElement) => {
+      return node.naturalWidth > 0;
+    });
+
+    if (!hasWidth) {
+      return {
+        message: () =>
+          'Image is not valid. The natural width is 0. Or check the locator to be image locator.',
+        pass: false,
+      };
+    }
+    return {
+      message: () => 'Image is valid',
+      pass: true,
+    };
+  },
+  toHaveValidSrc: async (received: Locator) => {
+    const src = await received.getAttribute('src');
+    const isValid = await isImageSrcValid(src);
+
+    if (!isValid) {
+      return {
+        message: () =>
+          'Image is not valid. Check the locator to be image locator.',
+        pass: false,
+      };
+    }
+    return {
+      message: () => 'Image is valid',
+      pass: true,
+    };
+  },
+});
+
+//
+// export const expect = baseExpect.extend({
+//   toBeValidImage: async (received: Locator) => {
+//     const image: ImageCheck = {
+//       hasNaturalWidth: false,
+//       hasValidSrc: false,
+//     };
+//
+//     image.hasNaturalWidth = await received.evaluate(
+//       (node: HTMLImageElement) => {
+//         return node.naturalWidth > 0;
+//       },
+//     );
+//
+//     const src = await received.getAttribute('src');
+//     image.hasValidSrc = await isImageSrcValid(src);
+//
+//     if (image.hasNaturalWidth && image.hasValidSrc) {
+//       return {
+//         message: () => 'Image is valid',
+//         pass: true,
+//       };
+//     } else {
+//       return {
+//         message: () =>
+//           'Image is not valid. The natural width is 0. Or check the locator to be image locator.',
+//         pass: false,
+//       };
+//     }
+//   },
+// });
