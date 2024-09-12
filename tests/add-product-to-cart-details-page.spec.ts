@@ -21,7 +21,8 @@ test('Add product to cart from the details page', async ({ inventoryPage }) => {
 
   await test.step('Verify that the product image is valid', async () => {
     const productImage = await productDetailsPage.getProductImage();
-    await expect(productImage).toBeValidImage();
+    await expect(productImage).toHaveNaturalWidth();
+    await expect(productImage).toHaveValidSrc();
   });
 
   await test.step('Add product to the cart', async () => {
@@ -34,6 +35,6 @@ test('Add product to cart from the details page', async ({ inventoryPage }) => {
     const productInCart = await cartPage.getCartItemsInfo();
 
     expect(cartBadge).toBe('1');
-    expect(productInCart).toContainEqual(pickedProduct);
+    expect(productInCart[0]).toEqual(pickedProduct);
   });
 });

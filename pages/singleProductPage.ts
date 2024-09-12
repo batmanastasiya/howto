@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { Header } from './fragments/header';
 import { ProductInfo } from '../types/product.type';
 import { parsePrice } from '../helpers/priceParsingHelper';
@@ -27,11 +27,8 @@ export class SingleProductPage {
     await this.itemAddToCartBtn.click();
   }
 
-  async getAttributeValue(attribute: string): Promise<string> {
-    return this.itemImage.getAttribute(attribute);
-  }
-
-  async getProductImage() {
+  async getProductImage(): Promise<Locator> {
+    await this.itemImage.waitFor({ state: 'visible' });
     return this.itemImage;
   }
 }
